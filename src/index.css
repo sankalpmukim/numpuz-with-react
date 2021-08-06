@@ -1,0 +1,27 @@
+body {
+  font: 14px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+}
+
+.board {
+  --grid-size: 4;
+  /* Start with 4x4 */
+  display: grid;
+  width: 75rem;
+  height: 75rem;
+  grid-template: repeat(var(--grid-size), 1fr) / repeat(var(--grid-size), 1fr);
+}
+
+.square {
+  border: 1px solid black;
+  display: grid;
+  place-items: center;
+  font-size: 40px;
+}
+
+.my-button {
+  padding: 1rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
