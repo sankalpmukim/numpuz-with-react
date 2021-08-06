@@ -7,8 +7,10 @@ body {
   --grid-size: 4;
   /* Start with 4x4 */
   display: grid;
-  width: 75rem;
-  height: 75rem;
+  width: 40rem;
+  height: 40rem;
+  flex-grow: 1;
+  flex-basis: 0;
   grid-template: repeat(var(--grid-size), 1fr) / repeat(var(--grid-size), 1fr);
 }
 
@@ -16,7 +18,7 @@ body {
   border: 1px solid black;
   display: grid;
   place-items: center;
-  font-size: 40px;
+  font-size: 2rem;
 }
 
 .my-button {
@@ -24,4 +26,16 @@ body {
   position: absolute;
   right: 0;
   top: 0;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.details {
+  flex-grow: 1;
+  flex-basis: 0;
 }

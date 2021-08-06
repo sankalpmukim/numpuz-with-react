@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import "./index.css";
 import Square from "./Square";
 // class Board extends React.Component {
@@ -17,25 +17,19 @@ import Square from "./Square";
 //   }
 // }
 
-const Board = () => {
-  const [gridSize, setGridSize] = useState(4);
-  const boardRef = useRef(null);
-  useEffect(() => {
-    boardRef.current.style.setProperty("--grid-size", gridSize);
-  }, [gridSize]);
-  const squares = Array(gridSize * gridSize)
-    .fill(null)
-    .map((_, idx) => <Square key={idx} />);
+const Board = (props) => {
+  let squares = props.squares.slice();
+  squares = squares.map((_, idx) => (
+    <Square
+      onClick={() => props.squareClick(idx)}
+      key={idx}
+      value={squares[idx]}
+    />
+  ));
+
   return (
-    <div>
-      <input
-        type="number"
-        value={gridSize}
-        onChange={(event) => setGridSize(event.target.value)}
-      />
-      <div ref={boardRef} className="board">
-        {squares}
-      </div>
+    <div className="board" style={{ "--grid-size": props.gridSize }}>
+      {squares}
     </div>
   );
 };
