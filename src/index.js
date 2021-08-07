@@ -2,43 +2,18 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import Board from "./Board";
-
-const generateInitArray = (gridSize) => {
-  const initArray = Array.from({ length: gridSize * gridSize }, (_, index) =>
-    String(index + 1)
-  );
-  // initArray[initArray.length - 1] = initArray.length - 1;
-  // initArray[initArray.length - 2] = "##";
-  // return initArray;
-  initArray[initArray.length - 1] = "##";
-  initArray.sort(() => Math.random() - 0.5);
-  return initArray;
-};
-
-const swapArrayElements = (arr, indexA, indexB) => {
-  const temp = arr[indexA];
-  arr[indexA] = arr[indexB];
-  arr[indexB] = temp;
-  return arr;
-};
-
-const arraysEqual = (a, b) => {
-  if (a === b) return true;
-  if (a == null || b == null) return false;
-  if (a.length !== b.length) return false;
-
-  for (var i = 0; i < a.length; ++i) {
-    if (a[i] !== b[i]) return false;
-  }
-  return true;
-};
+import Timer from "./Timer";
+import { generateInitArray, swapArrayElements, arraysEqual } from "./utils";
 
 const Game = () => {
   const [gridSize, setGridSize] = useState(4);
   const [squares, setSquares] = useState(generateInitArray(gridSize));
   const [won, setWon] = useState(false);
+  const [time, setTime] = useState(0);
+  const [isActive, setIsActive] = useState(false);
   useEffect(() => {
     setSquares(generateInitArray(gridSize));
+    setIsActive(false);
   }, [gridSize]);
   useEffect(() => {
     const newSquares = squares.slice();
@@ -53,12 +28,26 @@ const Game = () => {
     newSquares[newSquares.indexOf("##")] = String(newSquares.length);
     if (arraysEqual(newSquares, sortedArray)) {
       console.log("Game won");
+      setIsActive(false);
       setWon(true);
       return;
     }
     console.log("Game not won");
     setWon(false);
   }, [squares]);
+  useEffect(() => {
+    let interval = null;
+    if (isActive) {
+      interval = setInterval(() => {
+        setTime((time) => time + 100);
+      }, 100);
+    } else {
+      clearInterval(interval);
+    }
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isActive]);
 
   const movable = (idx) => {
     const mover = squares.indexOf("##");
@@ -128,6 +117,10 @@ const Game = () => {
 
   const handleClick = (i) => {
     // console.log(i);
+    if (!isActive && won === false) {
+      setIsActive(true);
+      setTime(0);
+    }
     if (movable(i) !== 0 && won === false) {
       if (movable(i) === 1) {
         verticalChange(i, squares.indexOf("##"));
@@ -148,7 +141,9 @@ const Game = () => {
               <input
                 type="number"
                 value={gridSize}
-                onChange={(event) => setGridSize(Number(event.target.value))}
+                onChange={(event) => {
+                  setGridSize(Number(event.target.value));
+                }}
                 id="number"
                 min="2"
                 max="10"
@@ -161,11 +156,17 @@ const Game = () => {
           <div>
             <button
               className="my-button"
-              onClick={() => setSquares(generateInitArray(gridSize))}
+              onClick={() => {
+                setSquares(generateInitArray(gridSize));
+                setIsActive(false);
+                setWon(false);
+                setTime(0);
+              }}
             >
               Reset board
             </button>
           </div>
+          <Timer time={time} />
         </div>
         <Board
           squares={squares}
