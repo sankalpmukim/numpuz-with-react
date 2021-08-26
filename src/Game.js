@@ -4,16 +4,35 @@ import Timer from "./Timer";
 import LeaderboardMenu from "./LeaderboardMenu";
 import "./index.css";
 import { generateInitArray, swapArrayElements, arraysEqual } from "./utils";
+import "firebase/auth";
+import { useStore } from "./UserContext";
 
+// const auth = firebase.auth();
 const Game = () => {
   const [gridSize, setGridSize] = useState(4);
   const [squares, setSquares] = useState(generateInitArray(gridSize));
   const [won, setWon] = useState(false);
   const [time, setTime] = useState(0);
   const [isActive, setIsActive] = useState(false);
+  const { user } = useStore();
   useEffect(() => {
-    setSquares(generateInitArray(gridSize));
-    setIsActive(false);
+    if (won && user) {
+      if (JSON.parse(localStorage.getItem(gridSize))[user.uid] > time) {
+        const data = {
+          ...JSON.parse(localStorage.getItem(gridSize)),
+        };
+        data[user.uid] = time;
+        localStorage.setItem(gridSize, JSON.stringify(data));
+      }
+    }
+  }, [won, user, time, gridSize]);
+  useEffect(() => {
+    if (gridSize < 2 || gridSize > 10) {
+      alert("Gridsize can only be between 2 and 10!");
+    } else {
+      setSquares(generateInitArray(gridSize));
+      setIsActive(false);
+    }
   }, [gridSize]);
   useEffect(() => {
     const newSquares = squares.slice();
@@ -167,7 +186,7 @@ const Game = () => {
             </button>
           </div>
           <Timer time={time} />
-          <LeaderboardMenu />
+          <LeaderboardMenu gridSize={gridSize} />
         </div>
         <Board
           squares={squares}
