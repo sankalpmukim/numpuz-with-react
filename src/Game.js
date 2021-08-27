@@ -4,8 +4,9 @@ import Timer from "./Timer";
 import LeaderboardMenu from "./LeaderboardMenu";
 import "./index.css";
 import { generateInitArray, swapArrayElements, arraysEqual } from "./utils";
-import "firebase/auth";
+import firebase from "firebase";
 import { useStore } from "./UserContext";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 // const auth = firebase.auth();
 const Game = () => {
@@ -14,13 +15,76 @@ const Game = () => {
   const [won, setWon] = useState(false);
   const [time, setTime] = useState(0);
   const [isActive, setIsActive] = useState(false);
-  const { user } = useStore();
+  const [{ auth, firestore }] = useStore();
+  const [user] = useAuthState(auth);
   useEffect(() => {
     if (won && user) {
-      if (JSON.parse(localStorage.getItem(gridSize))[user.uid] > time) {
-        const data = {
-          ...JSON.parse(localStorage.getItem(gridSize)),
-        };
+      console.log(user.uid);
+      if (localStorage.getItem(gridSize) !== null) {
+        console.log("won");
+        if (
+          typeof JSON.parse(localStorage.getItem(gridSize))[user.uid] ===
+            "undefined" ||
+          (typeof JSON.parse(localStorage.getItem(gridSize))[user.uid] !==
+            "undefined" &&
+            JSON.parse(localStorage.getItem(gridSize))[user.uid] > time)
+        ) {
+          const data = {
+            ...JSON.parse(localStorage.getItem(gridSize)),
+          };
+          data[user.uid] = time;
+          localStorage.setItem(gridSize, JSON.stringify(data));
+        }
+      } else {
+        const data = {};
+        data[user.uid] = time;
+        localStorage.setItem(gridSize, JSON.stringify(data));
+      }
+    }
+  }, [won, user, time, gridSize]);
+  useEffect(() => {
+    console.log("in on change won");
+    if (won && user) {
+      console.log(user.uid);
+      const leaderboardRef = firestore
+        .collection(String(gridSize))
+        .doc(user.uid);
+      leaderboardRef.get().then((doc) => {
+        if (!doc.exists) {
+          leaderboardRef.set({
+            uid: user.uid,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            userName: user.displayName,
+            photoUrl: user.photoURL,
+            score: time,
+          });
+        } else {
+          const { score } = doc.data();
+          if (score > time) {
+            leaderboardRef.update({
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              score: time,
+            });
+          }
+        }
+      });
+      if (localStorage.getItem(gridSize) !== null) {
+        console.log("won");
+        if (
+          typeof JSON.parse(localStorage.getItem(gridSize))[user.uid] ===
+            "undefined" ||
+          (typeof JSON.parse(localStorage.getItem(gridSize))[user.uid] !==
+            "undefined" &&
+            JSON.parse(localStorage.getItem(gridSize))[user.uid] > time)
+        ) {
+          const data = {
+            ...JSON.parse(localStorage.getItem(gridSize)),
+          };
+          data[user.uid] = time;
+          localStorage.setItem(gridSize, JSON.stringify(data));
+        }
+      } else {
+        const data = {};
         data[user.uid] = time;
         localStorage.setItem(gridSize, JSON.stringify(data));
       }
@@ -34,6 +98,14 @@ const Game = () => {
       setIsActive(false);
     }
   }, [gridSize]);
+  useEffect(() => {
+    if (user === null) {
+      setSquares(generateInitArray(gridSize));
+      setIsActive(false);
+      setWon(false);
+      setTime(0);
+    }
+  }, [user, gridSize]);
   useEffect(() => {
     const newSquares = squares.slice();
     if (newSquares.indexOf("##") === -1) {
@@ -51,7 +123,6 @@ const Game = () => {
       setWon(true);
       return;
     }
-    console.log("Game not won");
     setWon(false);
   }, [squares]);
   useEffect(() => {
@@ -161,6 +232,10 @@ const Game = () => {
                 type="number"
                 value={gridSize}
                 onChange={(event) => {
+                  setSquares(generateInitArray(gridSize));
+                  setIsActive(false);
+                  setWon(false);
+                  setTime(0);
                   setGridSize(Number(event.target.value));
                 }}
                 id="number"
