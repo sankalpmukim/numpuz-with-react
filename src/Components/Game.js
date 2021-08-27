@@ -2,10 +2,14 @@ import React, { useState, useEffect } from "react";
 import Board from "./Board";
 import Timer from "./Timer";
 import LeaderboardMenu from "./LeaderboardMenu";
-import "./index.css";
-import { generateInitArray, swapArrayElements, arraysEqual } from "./utils";
+import "../index.css";
+import {
+  generateInitArray,
+  swapArrayElements,
+  arraysEqual,
+} from "../Context/utils";
 import firebase from "firebase";
-import { useStore } from "./UserContext";
+import { useStore } from "../Context/UserContext";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 // const auth = firebase.auth();
@@ -93,6 +97,7 @@ const Game = () => {
   useEffect(() => {
     if (gridSize < 2 || gridSize > 10) {
       alert("Gridsize can only be between 2 and 10!");
+      setGridSize(4);
     } else {
       setSquares(generateInitArray(gridSize));
       setIsActive(false);

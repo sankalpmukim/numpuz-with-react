@@ -1,6 +1,6 @@
 import LeaderboardSignedIn from "./LeaderboardSignedIn";
-import { SignIn } from "./AuthFunctions";
-import { useStore } from "./UserContext";
+import { SignIn } from "../Context/AuthFunctions";
+import { useStore } from "../Context/UserContext";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 const LeaderboardMenu = (props) => {

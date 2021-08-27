@@ -1,4 +1,4 @@
-import { SignOut } from "./AuthFunctions";
+import { SignOut } from "../Context/AuthFunctions";
 import Leaderboard from "./Leaderboard";
 
 const LeaderboardSignedIn = (props) => {

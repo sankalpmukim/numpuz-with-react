@@ -1,4 +1,4 @@
-import "./index.css";
+import "../index.css";
 
 const Square = (props) => (
   <div className="square" onClick={() => props.onClick()}>

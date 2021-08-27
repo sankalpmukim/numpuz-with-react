@@ -1,4 +1,4 @@
-import { useStore } from "./UserContext";
+import { useStore } from "../Context/UserContext";
 
 const TableEntry = (props) => {
   const [{ auth }] = useStore();

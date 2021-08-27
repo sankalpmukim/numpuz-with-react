@@ -1,7 +1,7 @@
 // import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useStore } from "./UserContext";
+import { useStore } from "../Context/UserContext";
 import TableEntry from "./TableEntry";
 import TableHeader from "./TableHeader";
 

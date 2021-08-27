@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import Game from "./Game";
-import { UserProvider } from "./UserContext";
-import { initialState, userReducer } from "./UserReducer";
+import Game from "./Components/Game";
+import { UserProvider } from "./Context/UserContext";
+import { initialState, userReducer } from "./Context/UserReducer";
 
 // ========================================
 
