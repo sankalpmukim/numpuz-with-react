@@ -47,7 +47,7 @@ const Game = () => {
     }
   }, [won, user, time, gridSize]);
   useEffect(() => {
-    console.log("in on change won");
+    // console.log("in on change won");
     if (won && user) {
       console.log(user.uid);
       const leaderboardRef = firestore
@@ -93,7 +93,7 @@ const Game = () => {
         localStorage.setItem(gridSize, JSON.stringify(data));
       }
     }
-  }, [won, user, time, gridSize]);
+  }, [won, user, time, gridSize, firestore]);
   useEffect(() => {
     if (gridSize < 2 || gridSize > 10) {
       alert("Gridsize can only be between 2 and 10!");
@@ -229,6 +229,11 @@ const Game = () => {
     <div>
       <h1>Number puzzle!</h1>
       <div className="game">
+        <Board
+          squares={squares}
+          gridSize={gridSize}
+          squareClick={handleClick}
+        />
         <div className="details">
           <label htmlFor="number">
             <h3>
@@ -268,11 +273,6 @@ const Game = () => {
           <Timer time={time} />
           <LeaderboardMenu gridSize={gridSize} />
         </div>
-        <Board
-          squares={squares}
-          gridSize={gridSize}
-          squareClick={handleClick}
-        />
       </div>
     </div>
   );

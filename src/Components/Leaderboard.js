@@ -1,9 +1,10 @@
-// import { useEffect, useState } from "react";
+import { createRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useStore } from "../Context/UserContext";
-import TableEntry from "./TableEntry";
+import { TableEntry, TableEntryRef } from "./TableEntry";
 import TableHeader from "./TableHeader";
+import "../CSS/Leaderboard.css";
 
 const Leaderboard = (props) => {
   const [{ auth, firestore }] = useStore();
@@ -12,20 +13,92 @@ const Leaderboard = (props) => {
   const query = entryRef.orderBy("score", "asc");
   const [allEntries] = useCollectionData(query, { idField: "uid" });
   //   useEffect(() => {}, [allEntries]);
+  const [top, setTop] = useState(true);
+  const topRef = createRef();
+  const userRef = createRef();
+  const index = (allEntries, user) => {
+    for (let index = 0; index < allEntries.length; index++) {
+      const entry = allEntries[index];
+      if (entry.uid === user.uid) {
+        return index;
+      }
+    }
+    return -1;
+  };
   return (
     user && (
-      <table>
-        {/* <div>This is going to be the whole Leaderboard</div> */}
-        <TableHeader />
-        <tbody>
-          {allEntries &&
-            allEntries.map((entry, idx) => {
-              return (
-                <TableEntry key={entry.uid} document={entry} rank={idx + 1} />
-              );
-            })}
-        </tbody>
-      </table>
+      <div>
+        <div className="table-container">
+          <table>
+            <TableHeader />
+            <tbody>
+              {allEntries &&
+                allEntries.map((entry, idx) => {
+                  if (idx === 0) {
+                    return (
+                      <TableEntryRef
+                        key={entry.uid}
+                        document={entry}
+                        rank={idx + 1}
+                        ref={topRef}
+                      />
+                    );
+                  }
+                  if (entry.uid !== user.uid) {
+                    return (
+                      <TableEntry
+                        key={entry.uid}
+                        document={entry}
+                        rank={idx + 1}
+                      />
+                    );
+                  } else {
+                    return (
+                      <TableEntryRef
+                        key={entry.uid}
+                        document={entry}
+                        rank={idx + 1}
+                        ref={userRef}
+                      />
+                    );
+                  }
+                })}
+            </tbody>
+          </table>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <button
+            onClick={(e) => {
+              if (top) {
+                if (userRef.current !== null) {
+                  userRef.current.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                    inline: "nearest",
+                  });
+                }
+                setTop(false);
+              } else {
+                topRef.current.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                  inline: "nearest",
+                });
+                setTop(true);
+              }
+            }}
+          >
+            {top ? "Scroll to you" : "Scroll to top"}
+          </button>
+        </div>
+      </div>
     )
   );
 };
