@@ -1,0 +1,17 @@
+.board {
+  --grid-size: 4;
+  /* Start with 4x4 */
+  display: grid;
+  width: 40rem;
+  height: 40rem;
+  flex-grow: 1;
+  flex-basis: 0;
+  grid-template: repeat(var(--grid-size), 1fr) / repeat(var(--grid-size), 1fr);
+}
+
+.square {
+  border: 1px solid black;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+}

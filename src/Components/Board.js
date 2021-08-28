@@ -1,5 +1,4 @@
-import React from "react";
-import "./index.css";
+import "../CSS/Board.css";
 import Square from "./Square";
 // class Board extends React.Component {
 //   constructor(props) {
