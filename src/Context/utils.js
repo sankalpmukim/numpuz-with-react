@@ -2,12 +2,12 @@ const generateInitArray = (gridSize) => {
   const initArray = Array.from({ length: gridSize * gridSize }, (_, index) =>
     String(index + 1)
   );
-  initArray[initArray.length - 1] = String(initArray.length - 1);
-  initArray[initArray.length - 2] = "##";
-  return initArray;
-  // initArray[initArray.length - 1] = "##";
-  // initArray.sort(() => Math.random() - 0.5);
+  // initArray[initArray.length - 1] = String(initArray.length - 1);
+  // initArray[initArray.length - 2] = "##";
   // return initArray;
+  initArray[initArray.length - 1] = "##";
+  initArray.sort(() => Math.random() - 0.5);
+  return initArray;
 };
 
 const swapArrayElements = (arr, indexA, indexB) => {
