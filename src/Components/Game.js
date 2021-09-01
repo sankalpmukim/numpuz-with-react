@@ -124,7 +124,7 @@ const Game = () => {
     newSquares[newSquares.indexOf("##")] = String(newSquares.length);
     if (arraysEqual(newSquares, sortedArray)) {
       console.log("Game won");
-      setTime(0);
+      // setTime(0);
       setIsActive(false);
       setWon(true);
       return;
