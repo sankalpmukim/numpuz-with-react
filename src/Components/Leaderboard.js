@@ -16,15 +16,15 @@ const Leaderboard = (props) => {
   const [top, setTop] = useState(true);
   const topRef = createRef();
   const userRef = createRef();
-  const index = (allEntries, user) => {
-    for (let index = 0; index < allEntries.length; index++) {
-      const entry = allEntries[index];
-      if (entry.uid === user.uid) {
-        return index;
-      }
-    }
-    return -1;
-  };
+  // const index = (allEntries, user) => {
+  //   for (let index = 0; index < allEntries.length; index++) {
+  //     const entry = allEntries[index];
+  //     if (entry.uid === user.uid) {
+  //       return index;
+  //     }
+  //   }
+  //   return -1;
+  // };
   return (
     user && (
       <div>

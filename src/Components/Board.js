@@ -21,7 +21,7 @@ const Board = (props) => {
   squares = squares.map((_, idx) => (
     <Square
       onClick={() => props.squareClick(idx)}
-      key={idx}
+      key={squares[idx]}
       value={squares[idx]}
     />
   ));
