@@ -42,5 +42,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://sankalpmukim.github.io/numpuz-with-react/"
+  "homepage": "https://sankalpmukim.github.io/numpuz-with-react/",
+  "devDependencies": {
+    "prettier": "^2.4.1"
+  }
 }
