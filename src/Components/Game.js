@@ -15,7 +15,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 // const auth = firebase.auth();
 const Game = () => {
   const [gridSize, setGridSize] = useState(4);
-  const [squares, setSquares] = useState(generateInitArray(gridSize));
+  const sqrs = generateInitArray(gridSize);
+  const [squares, setSquares] = useState(sqrs);
   const [won, setWon] = useState(false);
   const [time, setTime] = useState(0);
   const [isActive, setIsActive] = useState(false);
@@ -99,13 +100,13 @@ const Game = () => {
       alert("Gridsize can only be between 2 and 10!");
       setGridSize(4);
     } else {
-      setSquares(generateInitArray(gridSize));
+      setSquares((_) => generateInitArray(gridSize));
       setIsActive(false);
     }
   }, [gridSize]);
   useEffect(() => {
     if (user === null) {
-      setSquares(generateInitArray(gridSize));
+      setSquares((_) => generateInitArray(gridSize));
       setIsActive(false);
       setWon(false);
       setTime(0);
