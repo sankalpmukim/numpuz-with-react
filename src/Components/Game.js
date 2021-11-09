@@ -238,22 +238,34 @@ const Game = () => {
         />
         <div className="details">
           <label htmlFor="number">
-            <h3>
-              Decide grid size:
-              <input
-                type="number"
-                value={gridSize}
-                onChange={(event) => {
-                  setSquares(generateInitArray(gridSize));
-                  setIsActive(false);
-                  setWon(false);
-                  setTime(0);
-                  setGridSize(Number(event.target.value));
+            <h3 className="grid-size">
+              <span className="child-1">Decide grid size:</span>
+
+              <span className="child-1">{gridSize}</span>
+              <svg
+                width="24"
+                height="24"
+                xmlns="http://www.w3.org/2000/svg"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                onClick={() => {
+                  setGridSize((gr) => gr + 1);
                 }}
-                id="number"
-                min="2"
-                max="10"
-              />
+              >
+                <path d="M23.245 20l-11.245-14.374-11.219 14.374-.781-.619 12-15.381 12 15.391-.755.609z" />
+              </svg>
+              <svg
+                width="24"
+                height="24"
+                xmlns="http://www.w3.org/2000/svg"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                onClick={() => {
+                  setGridSize((gr) => gr - 1);
+                }}
+              >
+                <path d="M23.245 4l-11.245 14.374-11.219-14.374-.781.619 12 15.381 12-15.391-.755-.609z" />
+              </svg>
             </h3>
           </label>
           <div>
@@ -263,7 +275,7 @@ const Game = () => {
             <button
               className="my-button"
               onClick={() => {
-                setSquares(generateInitArray(gridSize));
+                setSquares((_) => generateInitArray(gridSize));
                 setIsActive(false);
                 setWon(false);
                 setTime(0);

@@ -4,15 +4,30 @@ body {
 }
 
 .game {
-  display: flex;
-  flex-direction: row-reverse;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  grid-gap: 1rem;
+  direction: rtl;
 }
 
 .details {
-  flex-grow: 1;
-  flex-basis: 0;
+  direction: ltr;
+}
+
+.grid-size {
+  width: fit-content;
+  display: grid;
+  grid-template-columns: 4fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.child-1 {
+  grid-row-start: 1;
+  grid-row-end: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .timer {
@@ -32,4 +47,11 @@ body {
 
 .mili-sec {
   color: #e42a2a;
+}
+@media (max-width: 900px) {
+  .game {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto;
+  }
 }
