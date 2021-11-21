@@ -146,6 +146,15 @@ const Game = () => {
     };
   }, [isActive]);
 
+  useEffect(() => {
+    if (won) {
+      alert(`Congratulations!! You have won the game!`);
+      if (user === null) {
+        alert(`Represent your score on the global leaderboard by logging in!`);
+      }
+    }
+  }, [won, user]);
+
   const movable = (idx) => {
     const mover = squares.indexOf("##");
     // Horizontal:-1
