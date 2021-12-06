@@ -2,6 +2,13 @@
 Check it out and compete with your friends [here](https://sankalpmukim.github.io/numpuz-with-react/)!\
 The objective of building this project is to master [React](https://reactjs.org/) as well as some other common web technologies like [Firebase](https://firebase.google.com/) and [Web Sockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API). 
 
+# Todo list
+
+<input type="checkbox" disabled /> Arrow key support\
+<input type="checkbox" disabled /> Dark Mode\
+<input type="checkbox" disabled /> Fix CSS bugs\
+<input type="checkbox" disabled /> Win animation
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
