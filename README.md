@@ -1,6 +1,7 @@
 # numpuz-with-react
+Check it out and compete with your friends [here](https://sankalpmukim.github.io/numpuz-with-react/)!\
+The objective of building this project is to master [React](https://reactjs.org/) as well as some other common web technologies like [Firebase](https://firebase.google.com/) and [Web Sockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API). 
 
-Learning React by making a semi complicated game.
 
 # Todo list
 
