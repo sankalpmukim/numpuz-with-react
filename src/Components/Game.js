@@ -22,6 +22,19 @@ const Game = () => {
   const [isActive, setIsActive] = useState(false);
   const [{ auth, firestore }] = useStore();
   const [user] = useAuthState(auth);
+  const [darkMode, setDarkMode] = useState(true);
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.style.setProperty("--bg-color", "rgb(47,47,47)");
+      document.documentElement.style.setProperty("--main-color", "white");
+    } else {
+      document.documentElement.style.setProperty("--bg-color", "white");
+      document.documentElement.style.setProperty(
+        "--main-color",
+        "rgb(47,47,47)"
+      );
+    }
+  }, [darkMode]);
   useEffect(() => {
     if (won && user) {
       console.log(user.uid);
@@ -237,7 +250,14 @@ const Game = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        "--bg-color": darkMode ? "rgb(47,47,47)" : "white",
+        "--main-color": darkMode ? "white" : "rgb(47,47,47)",
+        backgroundColor: "var(--bg-color)",
+        color: "var(--main-color)",
+      }}
+    >
       <h1>Number puzzle!</h1>
       <div className="game">
         <Board
@@ -260,6 +280,9 @@ const Game = () => {
                 onClick={() => {
                   setGridSize((gr) => gr + 1);
                 }}
+                style={{
+                  color: "var(--main-color)",
+                }}
               >
                 <path d="M23.245 20l-11.245-14.374-11.219 14.374-.781-.619 12-15.381 12 15.391-.755.609z" />
               </svg>
@@ -279,6 +302,15 @@ const Game = () => {
           </label>
           <div>
             <h3>{won ? "Game won" : "Game not won"}</h3>
+          </div>
+          <div>
+            <input
+              id="dark-mode"
+              type="checkbox"
+              checked={darkMode}
+              onChange={(_e) => setDarkMode((val) => !val)}
+            />
+            <label htmlFor="dark-mode">Enable Dark Mode</label>
           </div>
           <div>
             <button
