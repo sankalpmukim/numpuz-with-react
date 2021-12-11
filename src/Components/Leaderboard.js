@@ -28,8 +28,14 @@ const Leaderboard = (props) => {
   return (
     user && (
       <div>
-        <div className="table-container">
-          <table>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <table className="table-container">
             <TableHeader />
             <tbody>
               {allEntries &&

@@ -1,6 +1,13 @@
-body {
+:root {
+  --bg-color: white;
+  --main-color: black;
+}
+
+html {
   font: 0.875rem "Century Gothic", Futura, sans-serif;
   margin: 1.25rem;
+  background-color: var(--bg-color);
+  color: var(--main-color);
 }
 
 .game {

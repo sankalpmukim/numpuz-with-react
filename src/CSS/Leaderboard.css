@@ -36,8 +36,11 @@ table {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  flex-direction: column;
+  width: 80%;
   padding: 1rem;
+  background-color: var(--bg-color);
+  color: var(--main-color);
 }
 .time {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -51,18 +54,33 @@ tbody {
   display: block;
   height: 12rem;
   overflow: auto;
+  background-color: var(--bg-color);
+  color: var(--main-color);
 }
 thead {
-  width: calc(100% - 1rem);
+  width: calc(100% - 1.3rem);
+  background-color: var(--bg-color);
+  color: var(--main-color);
+  transform: translateX(-0.5rem);
 }
 tr {
   display: table;
   table-layout: fixed;
   width: 100%;
+  background-color: var(--bg-color);
+  color: var(--main-color);
 }
 .current-user {
   background-color: rgb(150, 150, 150);
 }
 table {
   border-radius: 1rem;
+  background-color: var(--bg-color);
+  color: var(--main-color);
+}
+
+table,
+th,
+td {
+  border: 2px solid var(--main-color);
 }

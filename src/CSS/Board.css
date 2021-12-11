@@ -9,7 +9,7 @@
 }
 
 .square {
-  border: 1px solid black;
+  border: 1px solid var(--main-color);
   display: grid;
   place-items: center;
   font-size: 2rem;

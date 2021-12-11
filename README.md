@@ -2,12 +2,13 @@
 Check it out and compete with your friends [here](https://sankalpmukim.github.io/numpuz-with-react/)!\
 The objective of building this project is to master [React](https://reactjs.org/) as well as some other common web technologies like [Firebase](https://firebase.google.com/) and [Web Sockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API). 
 
+
 # Todo list
 
-<input type="checkbox" disabled /> Arrow key support\
-<input type="checkbox" disabled /> Dark Mode\
-<input type="checkbox" disabled /> Fix CSS bugs\
-<input type="checkbox" disabled /> Win animation
+`<input type="checkbox" disabled />` Arrow key support
+`<input type="checkbox" />` Dark Mode
+`<input type="checkbox" disabled />` Fix CSS bugs
+`<input type="checkbox" disabled />` Win animation
 
 # Getting Started with Create React App
 
@@ -19,23 +20,23 @@ In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.\
+Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
+The page will reload if you make edits.
 You will also see any lint errors in the console.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
+Launches the test runner in the interactive watch mode.
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
+Builds the app for production to the `build` folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
+The build is minified and the filenames include the hashes.
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
