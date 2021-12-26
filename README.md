@@ -5,10 +5,10 @@ The objective of building this project is to master [React](https://reactjs.org/
 
 # Todo list
 
-`<input type="checkbox" disabled />` Arrow key support
-`<input type="checkbox" />` Dark Mode
-`<input type="checkbox" disabled />` Fix CSS bugs
-`<input type="checkbox" disabled />` Confetti win animation
+- [ ] Arrow key support
+- [x] Dark Mode
+- [ ] Fix CSS bugs
+- [ ] Confetti win animation
 
 
 ## Available Scripts
