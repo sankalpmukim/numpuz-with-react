@@ -8,11 +8,8 @@ The objective of building this project is to master [React](https://reactjs.org/
 - [ ] Arrow key support
 - [x] Dark Mode
 - [ ] Fix CSS bugs
-- [ ] Win animation
+- [ ] Confetti win animation
 
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
