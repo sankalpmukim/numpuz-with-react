@@ -8,11 +8,8 @@ The objective of building this project is to master [React](https://reactjs.org/
 `<input type="checkbox" disabled />` Arrow key support
 `<input type="checkbox" />` Dark Mode
 `<input type="checkbox" disabled />` Fix CSS bugs
-`<input type="checkbox" disabled />` Win animation
+`<input type="checkbox" disabled />` Confetti win animation
 
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
