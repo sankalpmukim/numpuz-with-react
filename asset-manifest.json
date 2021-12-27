@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/numpuz-with-react/static/css/main.ce3c8fe5.chunk.css",
-    "main.js": "/numpuz-with-react/static/js/main.7a8284b4.chunk.js",
-    "main.js.map": "/numpuz-with-react/static/js/main.7a8284b4.chunk.js.map",
+    "main.js": "/numpuz-with-react/static/js/main.ea67eca9.chunk.js",
+    "main.js.map": "/numpuz-with-react/static/js/main.ea67eca9.chunk.js.map",
     "runtime-main.js": "/numpuz-with-react/static/js/runtime-main.18bc770d.js",
     "runtime-main.js.map": "/numpuz-with-react/static/js/runtime-main.18bc770d.js.map",
     "static/js/2.7251549c.chunk.js": "/numpuz-with-react/static/js/2.7251549c.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.18bc770d.js",
     "static/js/2.7251549c.chunk.js",
     "static/css/main.ce3c8fe5.chunk.css",
-    "static/js/main.7a8284b4.chunk.js"
+    "static/js/main.ea67eca9.chunk.js"
   ]
 }
