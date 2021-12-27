@@ -18,8 +18,8 @@ const Game = () => {
   const sqrs = generateInitArray(gridSize);
   const [squares, setSquares] = useState(sqrs);
   const [won, setWon] = useState(false);
-  const [time, setTime] = useState(0);
   const [isActive, setIsActive] = useState(false);
+  const [reset, setReset] = useState(false);
   const [{ auth, firestore }] = useStore();
   const [user] = useAuthState(auth);
   const [darkMode, setDarkMode] = useState(true);
@@ -36,83 +36,11 @@ const Game = () => {
     }
   }, [darkMode]);
   useEffect(() => {
-    if (won && user) {
-      console.log(user.uid);
-      if (localStorage.getItem(gridSize) !== null) {
-        console.log("won");
-        if (
-          typeof JSON.parse(localStorage.getItem(gridSize))[user.uid] ===
-            "undefined" ||
-          (typeof JSON.parse(localStorage.getItem(gridSize))[user.uid] !==
-            "undefined" &&
-            JSON.parse(localStorage.getItem(gridSize))[user.uid] > time)
-        ) {
-          const data = {
-            ...JSON.parse(localStorage.getItem(gridSize)),
-          };
-          data[user.uid] = time;
-          localStorage.setItem(gridSize, JSON.stringify(data));
-        }
-      } else {
-        const data = {};
-        data[user.uid] = time;
-        localStorage.setItem(gridSize, JSON.stringify(data));
-      }
-    }
-  }, [won, user, time, gridSize]);
-  useEffect(() => {
-    // console.log("in on change won");
-    if (won && user) {
-      console.log(user.uid);
-      const leaderboardRef = firestore
-        .collection(String(gridSize))
-        .doc(user.uid);
-      leaderboardRef.get().then((doc) => {
-        if (!doc.exists) {
-          leaderboardRef.set({
-            uid: user.uid,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            userName: user.displayName,
-            photoUrl: user.photoURL,
-            score: time,
-          });
-        } else {
-          const { score } = doc.data();
-          if (score > time) {
-            leaderboardRef.update({
-              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-              score: time,
-            });
-          }
-        }
-      });
-      if (localStorage.getItem(gridSize) !== null) {
-        console.log("won");
-        if (
-          typeof JSON.parse(localStorage.getItem(gridSize))[user.uid] ===
-            "undefined" ||
-          (typeof JSON.parse(localStorage.getItem(gridSize))[user.uid] !==
-            "undefined" &&
-            JSON.parse(localStorage.getItem(gridSize))[user.uid] > time)
-        ) {
-          const data = {
-            ...JSON.parse(localStorage.getItem(gridSize)),
-          };
-          data[user.uid] = time;
-          localStorage.setItem(gridSize, JSON.stringify(data));
-        }
-      } else {
-        const data = {};
-        data[user.uid] = time;
-        localStorage.setItem(gridSize, JSON.stringify(data));
-      }
-    }
-  }, [won, user, time, gridSize, firestore]);
-  useEffect(() => {
     if (gridSize < 2 || gridSize > 10) {
       alert("Gridsize can only be between 2 and 10!");
       setGridSize(4);
     } else {
+      setReset(true);
       setSquares((_) => generateInitArray(gridSize));
       setIsActive(false);
     }
@@ -122,7 +50,6 @@ const Game = () => {
       setSquares((_) => generateInitArray(gridSize));
       setIsActive(false);
       setWon(false);
-      setTime(0);
     }
   }, [user, gridSize]);
   useEffect(() => {
@@ -145,19 +72,6 @@ const Game = () => {
     }
     setWon(false);
   }, [squares]);
-  useEffect(() => {
-    let interval = null;
-    if (isActive) {
-      interval = setInterval(() => {
-        setTime((time) => time + 100);
-      }, 100);
-    } else {
-      clearInterval(interval);
-    }
-    return () => {
-      clearInterval(interval);
-    };
-  }, [isActive]);
 
   useEffect(() => {
     if (won) {
@@ -238,7 +152,7 @@ const Game = () => {
     // console.log(i);
     if (!isActive && won === false) {
       setIsActive(true);
-      setTime(0);
+      setReset(true);
     }
     if (movable(i) !== 0 && won === false) {
       if (movable(i) === 1) {
@@ -319,13 +233,22 @@ const Game = () => {
                 setSquares((_) => generateInitArray(gridSize));
                 setIsActive(false);
                 setWon(false);
-                setTime(0);
+                setReset(true);
               }}
             >
               Reset board
             </button>
           </div>
-          <Timer time={time} />
+          <Timer
+            reset={reset}
+            setReset={setReset}
+            won={won}
+            user={user}
+            gridSize={gridSize}
+            isActive={isActive}
+            firebase={firebase}
+            firestore={firestore}
+          />
           <LeaderboardMenu gridSize={gridSize} />
         </div>
       </div>
