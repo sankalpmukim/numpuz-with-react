@@ -162,6 +162,57 @@ const Game = () => {
       }
     }
   };
+  let i = 0;
+  const leftHandler = () => {
+    console.log(i);
+    i++;
+    const newSquares = squares.slice();
+    const mainIndex = newSquares.indexOf("##");
+    // checking for left edge
+    if (mainIndex % gridSize === 0) {
+      handleClick(mainIndex - 1);
+    }
+  };
+  const rightHandler = () => {
+    const newSquares = squares.slice();
+    const mainIndex = newSquares.indexOf("##");
+    // checking for left edge
+    if ((mainIndex + 1) % gridSize === 0) {
+      handleClick(mainIndex + 1);
+    }
+  };
+  const upHandler = () => {
+    const newSquares = squares.slice();
+    const mainIndex = newSquares.indexOf("##");
+    // checking for left edge
+    if (mainIndex % gridSize === 0) {
+      handleClick(mainIndex - 1);
+    }
+  };
+  const downHandler = () => {
+    const newSquares = squares.slice();
+    const mainIndex = newSquares.indexOf("##");
+    // checking for left edge
+    if (mainIndex % gridSize === 0) {
+      handleClick(mainIndex - 1);
+      console.log(mainIndex - 1);
+    }
+  };
+  useEffect(() => {
+    const keyEventsCallback = (e) => {
+      const callback = {
+        KeyA: leftHandler,
+        KeyD: rightHandler,
+        KeyW: upHandler,
+        KeyS: downHandler,
+      }[e.code];
+      callback?.();
+    };
+    document.addEventListener("keydown", keyEventsCallback);
+    return () => {
+      document.removeEventListener("keydown", keyEventsCallback);
+    };
+  }, []);
 
   return (
     <div
