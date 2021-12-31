@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Board from "./Board";
 import Timer from "./Timer";
 import LeaderboardMenu from "./LeaderboardMenu";
@@ -82,86 +82,148 @@ const Game = () => {
     }
   }, [won, user]);
 
-  const movable = (idx) => {
-    const mover = squares.indexOf("##");
-    // Horizontal:-1
-    // Vertical:1
-    // Not possible:0
-    if (idx === mover) {
-      return 0;
-    }
-    if (idx % gridSize === mover % gridSize) {
-      return 1;
-    } else {
-      const BEGIN = mover - (mover % gridSize);
-      if (idx >= BEGIN && idx <= BEGIN + gridSize - 1) {
-        return -1;
+  const movable = useCallback(
+    (idx) => {
+      const mover = squares.indexOf("##");
+      // Horizontal:-1
+      // Vertical:1
+      // Not possible:0
+      if (idx === mover) {
+        return 0;
       }
-      return 0;
-    }
-  };
-
-  const verticalChange = (idx, mover) => {
-    // console.log(gridSize);
-    let newSquares = squares.slice();
-    if (idx < mover) {
-      while (newSquares.indexOf("##") !== idx) {
-        newSquares = swapArrayElements(
-          newSquares,
-          newSquares.indexOf("##"),
-          newSquares.indexOf("##") - gridSize
-        );
-      }
-    } else if (idx > mover) {
-      while (newSquares.indexOf("##") !== idx) {
-        // console.log(gridSize);
-        // console.log(newSquares);
-        newSquares = swapArrayElements(
-          newSquares,
-          newSquares.indexOf("##"),
-          newSquares.indexOf("##") + gridSize
-        );
-      }
-    }
-    setSquares(newSquares);
-  };
-
-  const horizontalChange = (idx, mover) => {
-    let newSquares = squares.slice();
-    if (idx < mover) {
-      while (newSquares.indexOf("##") !== idx) {
-        newSquares = swapArrayElements(
-          newSquares,
-          newSquares.indexOf("##"),
-          newSquares.indexOf("##") - 1
-        );
-      }
-    } else if (idx > mover) {
-      while (newSquares.indexOf("##") !== idx) {
-        newSquares = swapArrayElements(
-          newSquares,
-          newSquares.indexOf("##"),
-          newSquares.indexOf("##") + 1
-        );
-      }
-    }
-    setSquares(newSquares);
-  };
-
-  const handleClick = (i) => {
-    // console.log(i);
-    if (!isActive && won === false) {
-      setIsActive(true);
-      setReset(true);
-    }
-    if (movable(i) !== 0 && won === false) {
-      if (movable(i) === 1) {
-        verticalChange(i, squares.indexOf("##"));
+      if (idx % gridSize === mover % gridSize) {
+        return 1;
       } else {
-        horizontalChange(i, squares.indexOf("##"));
+        const BEGIN = mover - (mover % gridSize);
+        if (idx >= BEGIN && idx <= BEGIN + gridSize - 1) {
+          return -1;
+        }
+        return 0;
       }
-    }
-  };
+    },
+    [gridSize, squares]
+  );
+
+  const verticalChange = useCallback(
+    (idx, mover) => {
+      // console.log(gridSize);
+      let newSquares = squares.slice();
+      if (idx < mover) {
+        while (newSquares.indexOf("##") !== idx) {
+          newSquares = swapArrayElements(
+            newSquares,
+            newSquares.indexOf("##"),
+            newSquares.indexOf("##") - gridSize
+          );
+        }
+      } else if (idx > mover) {
+        while (newSquares.indexOf("##") !== idx) {
+          // console.log(gridSize);
+          // console.log(newSquares);
+          newSquares = swapArrayElements(
+            newSquares,
+            newSquares.indexOf("##"),
+            newSquares.indexOf("##") + gridSize
+          );
+        }
+      }
+      setSquares(newSquares);
+    },
+    [gridSize, squares]
+  );
+
+  const horizontalChange = useCallback(
+    (idx, mover) => {
+      let newSquares = squares.slice();
+      if (idx < mover) {
+        while (newSquares.indexOf("##") !== idx) {
+          newSquares = swapArrayElements(
+            newSquares,
+            newSquares.indexOf("##"),
+            newSquares.indexOf("##") - 1
+          );
+        }
+      } else if (idx > mover) {
+        while (newSquares.indexOf("##") !== idx) {
+          newSquares = swapArrayElements(
+            newSquares,
+            newSquares.indexOf("##"),
+            newSquares.indexOf("##") + 1
+          );
+        }
+      }
+      setSquares(newSquares);
+    },
+    [squares]
+  );
+
+  const handleClick = useCallback(
+    (i) => {
+      // console.log(i);
+      if (!isActive && won === false) {
+        setIsActive(true);
+        setReset(true);
+      }
+      if (movable(i) !== 0 && won === false) {
+        if (movable(i) === 1) {
+          verticalChange(i, squares.indexOf("##"));
+        } else {
+          horizontalChange(i, squares.indexOf("##"));
+        }
+      }
+    },
+    [horizontalChange, isActive, movable, squares, verticalChange, won]
+  );
+  useEffect(() => {
+    const leftHandler = () => {
+      const newSquares = squares.slice();
+      const mainIndex = newSquares.indexOf("##");
+      // checking for left edge
+      if (mainIndex % gridSize !== 0) {
+        handleClick(mainIndex - 1);
+      }
+    };
+    const rightHandler = () => {
+      const newSquares = squares.slice();
+      const mainIndex = newSquares.indexOf("##");
+      console.log(mainIndex);
+      // checking for left edge
+      if ((mainIndex + 1) % gridSize !== 0) {
+        handleClick(mainIndex + 1);
+      }
+    };
+    const upHandler = () => {
+      const newSquares = squares.slice();
+      const mainIndex = newSquares.indexOf("##");
+      console.log(mainIndex);
+      // checking for left edge
+      if (mainIndex >= gridSize) {
+        handleClick(mainIndex - gridSize);
+      }
+    };
+    const downHandler = () => {
+      const newSquares = squares.slice();
+      const mainIndex = newSquares.indexOf("##");
+      console.log(mainIndex);
+      // checking for left edge
+      if (mainIndex <= gridSize * gridSize - gridSize - 1) {
+        handleClick(mainIndex + gridSize);
+      }
+    };
+    const keyEventsCallback = (e) => {
+      const callback = {
+        ArrowLeft: leftHandler,
+        ArrowRight: rightHandler,
+        ArrowUp: upHandler,
+        ArrowDown: downHandler,
+      }[e.code];
+      callback?.();
+    };
+    document.addEventListener("keydown", keyEventsCallback);
+    return () => {
+      document.removeEventListener("keydown", keyEventsCallback);
+    };
+  }, [gridSize, handleClick, squares]);
 
   return (
     <div
