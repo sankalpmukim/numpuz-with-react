@@ -5,7 +5,7 @@ The objective of building this project is to master [React](https://reactjs.org/
 
 # Todo list
 
-- [ ] Arrow key support
+- [x] Arrow key support
 - [x] Dark Mode
 - [ ] Fix CSS bugs
 - [ ] Confetti win animation
