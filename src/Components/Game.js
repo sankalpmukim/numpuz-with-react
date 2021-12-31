@@ -7,6 +7,7 @@ import {
   generateInitArray,
   swapArrayElements,
   arraysEqual,
+  asyncAlert,
 } from "../Context/utils";
 import firebase from "firebase";
 import { useStore } from "../Context/UserContext";
@@ -37,7 +38,7 @@ const Game = () => {
   }, [darkMode]);
   useEffect(() => {
     if (gridSize < 2 || gridSize > 10) {
-      alert("Gridsize can only be between 2 and 10!");
+      asyncAlert("Gridsize can only be between 2 and 10!");
       setGridSize(4);
     } else {
       setReset(true);
@@ -75,9 +76,11 @@ const Game = () => {
 
   useEffect(() => {
     if (won) {
-      alert(`Congratulations!! You have won the game!`);
+      asyncAlert(`Congratulations!! You have won the game!`);
       if (user === null) {
-        alert(`Represent your score on the global leaderboard by logging in!`);
+        asyncAlert(
+          `Represent your score on the global leaderboard by logging in!`
+        );
       }
     }
   }, [won, user]);

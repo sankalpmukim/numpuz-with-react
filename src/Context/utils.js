@@ -98,4 +98,16 @@ const generateInitArray = (gridSize) => {
   return output;
 };
 
-export { generateInitArray, swapArrayElements, arraysEqual, isSolvable };
+const asyncAlert = async (str) => {
+  setTimeout(() => {
+    alert(str);
+  }, 30);
+};
+
+export {
+  generateInitArray,
+  swapArrayElements,
+  arraysEqual,
+  isSolvable,
+  asyncAlert,
+};
