@@ -12,6 +12,7 @@ import {
 import firebase from "firebase";
 import { useStore } from "../Context/UserContext";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { WinAnimation } from "./WinAnimation";
 
 // const auth = firebase.auth();
 const Game = () => {
@@ -229,95 +230,98 @@ const Game = () => {
   }, [gridSize, handleClick, squares]);
 
   return (
-    <div
-      style={{
-        "--bg-color": darkMode ? "rgb(47,47,47)" : "white",
-        "--main-color": darkMode ? "white" : "rgb(47,47,47)",
-        backgroundColor: "var(--bg-color)",
-        color: "var(--main-color)",
-      }}
-    >
-      <h1>Number puzzle!</h1>
-      <div className="game">
-        <Board
-          squares={squares}
-          gridSize={gridSize}
-          squareClick={handleClick}
-        />
-        <div className="details">
-          <label htmlFor="number">
-            <h3 className="grid-size">
-              <span className="child-1">Decide grid size:</span>
-
-              <span className="child-1">{gridSize}</span>
-              <svg
-                width="24"
-                height="24"
-                xmlns="http://www.w3.org/2000/svg"
-                fillRule="evenodd"
-                clipRule="evenodd"
-                onClick={() => {
-                  setGridSize((gr) => gr + 1);
-                }}
-                style={{
-                  color: "var(--main-color)",
-                }}
-              >
-                <path d="M23.245 20l-11.245-14.374-11.219 14.374-.781-.619 12-15.381 12 15.391-.755.609z" />
-              </svg>
-              <svg
-                width="24"
-                height="24"
-                xmlns="http://www.w3.org/2000/svg"
-                fillRule="evenodd"
-                clipRule="evenodd"
-                onClick={() => {
-                  setGridSize((gr) => gr - 1);
-                }}
-              >
-                <path d="M23.245 4l-11.245 14.374-11.219-14.374-.781.619 12 15.381 12-15.391-.755-.609z" />
-              </svg>
-            </h3>
-          </label>
-          <div>
-            <h3>{won ? "Game won" : "Game not won"}</h3>
-          </div>
-          <div>
-            <input
-              id="dark-mode"
-              type="checkbox"
-              checked={darkMode}
-              onChange={(_e) => setDarkMode((val) => !val)}
-            />
-            <label htmlFor="dark-mode">Enable Dark Mode</label>
-          </div>
-          <div>
-            <button
-              className="my-button"
-              onClick={() => {
-                setSquares((_) => generateInitArray(gridSize));
-                setIsActive(false);
-                setWon(false);
-                setReset(true);
-              }}
-            >
-              Reset board
-            </button>
-          </div>
-          <Timer
-            reset={reset}
-            setReset={setReset}
-            won={won}
-            user={user}
+    <>
+      {won ? <WinAnimation /> : null}
+      <div
+        style={{
+          "--bg-color": darkMode ? "rgb(47,47,47)" : "white",
+          "--main-color": darkMode ? "white" : "rgb(47,47,47)",
+          backgroundColor: "var(--bg-color)",
+          color: "var(--main-color)",
+        }}
+      >
+        <h1>Number puzzle!</h1>
+        <div className="game">
+          <Board
+            squares={squares}
             gridSize={gridSize}
-            isActive={isActive}
-            firebase={firebase}
-            firestore={firestore}
+            squareClick={handleClick}
           />
-          <LeaderboardMenu gridSize={gridSize} />
+          <div className="details">
+            <label htmlFor="number">
+              <h3 className="grid-size">
+                <span className="child-1">Decide grid size:</span>
+
+                <span className="child-1">{gridSize}</span>
+                <svg
+                  width="24"
+                  height="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  onClick={() => {
+                    setGridSize((gr) => gr + 1);
+                  }}
+                  style={{
+                    color: "var(--main-color)",
+                  }}
+                >
+                  <path d="M23.245 20l-11.245-14.374-11.219 14.374-.781-.619 12-15.381 12 15.391-.755.609z" />
+                </svg>
+                <svg
+                  width="24"
+                  height="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  onClick={() => {
+                    setGridSize((gr) => gr - 1);
+                  }}
+                >
+                  <path d="M23.245 4l-11.245 14.374-11.219-14.374-.781.619 12 15.381 12-15.391-.755-.609z" />
+                </svg>
+              </h3>
+            </label>
+            <div>
+              <h3>{won ? "Game won" : "Game not won"}</h3>
+            </div>
+            <div>
+              <input
+                id="dark-mode"
+                type="checkbox"
+                checked={darkMode}
+                onChange={(_e) => setDarkMode((val) => !val)}
+              />
+              <label htmlFor="dark-mode">Enable Dark Mode</label>
+            </div>
+            <div>
+              <button
+                className="my-button"
+                onClick={() => {
+                  setSquares((_) => generateInitArray(gridSize));
+                  setIsActive(false);
+                  setWon(false);
+                  setReset(true);
+                }}
+              >
+                Reset board
+              </button>
+            </div>
+            <Timer
+              reset={reset}
+              setReset={setReset}
+              won={won}
+              user={user}
+              gridSize={gridSize}
+              isActive={isActive}
+              firebase={firebase}
+              firestore={firestore}
+            />
+            <LeaderboardMenu gridSize={gridSize} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
