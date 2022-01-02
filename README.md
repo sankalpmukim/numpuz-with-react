@@ -3,14 +3,6 @@ Check it out and compete with your friends [here](https://sankalpmukim.github.io
 The objective of building this project is to master [React](https://reactjs.org/) as well as some other common web technologies like [Firebase](https://firebase.google.com/) and [Web Sockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API). 
 
 
-# Todo list
-
-- [x] Arrow key support
-- [x] Dark Mode
-- [ ] Fix CSS bugs
-- [ ] Confetti win animation
-
-
 ## Available Scripts
 
 In the project directory, you can run:
