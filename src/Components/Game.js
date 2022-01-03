@@ -76,13 +76,10 @@ const Game = () => {
   }, [squares]);
 
   useEffect(() => {
-    if (won) {
-      asyncAlert(`Congratulations!! You have won the game!`);
-      if (user === null) {
-        asyncAlert(
-          `Represent your score on the global leaderboard by logging in!`
-        );
-      }
+    if (won && user === null) {
+      asyncAlert(
+        `Represent your score on the global leaderboard by logging in!`
+      );
     }
   }, [won, user]);
 
