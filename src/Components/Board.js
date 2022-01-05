@@ -1,5 +1,6 @@
 import "../CSS/Board.css";
 import Square from "./Square";
+import { useState } from "react";
 // class Board extends React.Component {
 //   constructor(props) {
 //     super(props);
