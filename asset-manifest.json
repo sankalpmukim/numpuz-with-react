@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/numpuz-with-react/static/css/main.9e7d0b17.chunk.css",
-    "main.js": "/numpuz-with-react/static/js/main.97f11ead.chunk.js",
-    "main.js.map": "/numpuz-with-react/static/js/main.97f11ead.chunk.js.map",
+    "main.css": "/numpuz-with-react/static/css/main.f187f487.chunk.css",
+    "main.js": "/numpuz-with-react/static/js/main.c120dc4b.chunk.js",
+    "main.js.map": "/numpuz-with-react/static/js/main.c120dc4b.chunk.js.map",
     "runtime-main.js": "/numpuz-with-react/static/js/runtime-main.18bc770d.js",
     "runtime-main.js.map": "/numpuz-with-react/static/js/runtime-main.18bc770d.js.map",
-    "static/js/2.49201dec.chunk.js": "/numpuz-with-react/static/js/2.49201dec.chunk.js",
-    "static/js/2.49201dec.chunk.js.map": "/numpuz-with-react/static/js/2.49201dec.chunk.js.map",
+    "static/js/2.97ce7108.chunk.js": "/numpuz-with-react/static/js/2.97ce7108.chunk.js",
+    "static/js/2.97ce7108.chunk.js.map": "/numpuz-with-react/static/js/2.97ce7108.chunk.js.map",
     "index.html": "/numpuz-with-react/index.html",
-    "static/css/main.9e7d0b17.chunk.css.map": "/numpuz-with-react/static/css/main.9e7d0b17.chunk.css.map",
-    "static/js/2.49201dec.chunk.js.LICENSE.txt": "/numpuz-with-react/static/js/2.49201dec.chunk.js.LICENSE.txt"
+    "static/css/main.f187f487.chunk.css.map": "/numpuz-with-react/static/css/main.f187f487.chunk.css.map",
+    "static/js/2.97ce7108.chunk.js.LICENSE.txt": "/numpuz-with-react/static/js/2.97ce7108.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.18bc770d.js",
-    "static/js/2.49201dec.chunk.js",
-    "static/css/main.9e7d0b17.chunk.css",
-    "static/js/main.97f11ead.chunk.js"
+    "static/js/2.97ce7108.chunk.js",
+    "static/css/main.f187f487.chunk.css",
+    "static/js/main.c120dc4b.chunk.js"
   ]
 }
