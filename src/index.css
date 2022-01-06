@@ -62,3 +62,8 @@ html {
     grid-template-rows: auto auto;
   }
 }
+
+.my-button {
+  margin: 0.5rem;
+  margin-bottom: 0;
+}

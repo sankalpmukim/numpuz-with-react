@@ -1,14 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Board from "./Board";
 import Timer from "./Timer";
 import LeaderboardMenu from "./LeaderboardMenu";
 import "../index.css";
-import {
-  generateInitArray,
-  swapArrayElements,
-  arraysEqual,
-  asyncAlert,
-} from "../Context/utils";
 import firebase from "firebase";
 import { useStore } from "../Context/UserContext";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -17,11 +11,10 @@ import { WinAnimation } from "./WinAnimation";
 // const auth = firebase.auth();
 const Game = () => {
   const [gridSize, setGridSize] = useState(4);
-  const sqrs = generateInitArray(gridSize);
-  const [squares, setSquares] = useState(sqrs);
   const [won, setWon] = useState(false);
   const [isActive, setIsActive] = useState(false);
-  const [reset, setReset] = useState(false);
+  const [resetTimer, setResetTimer] = useState(false);
+  const [resetBoard, setResetBoard] = useState(false);
   const [{ auth, firestore }] = useStore();
   const [user] = useAuthState(auth);
   const [darkMode, setDarkMode] = useState(true);
@@ -37,194 +30,6 @@ const Game = () => {
       );
     }
   }, [darkMode]);
-  useEffect(() => {
-    if (gridSize < 2 || gridSize > 10) {
-      asyncAlert("Gridsize can only be between 2 and 10!");
-      setGridSize(4);
-    } else {
-      setReset(true);
-      setSquares((_) => generateInitArray(gridSize));
-      setIsActive(false);
-    }
-  }, [gridSize]);
-  useEffect(() => {
-    if (user === null) {
-      setSquares((_) => generateInitArray(gridSize));
-      setIsActive(false);
-      setWon(false);
-    }
-  }, [user, gridSize]);
-  useEffect(() => {
-    const newSquares = squares.slice();
-    if (newSquares.indexOf("##") === -1) {
-      setWon(true);
-      return;
-    }
-    const SIZE = Math.sqrt(newSquares.length);
-    const sortedArray = Array.from({ length: SIZE * SIZE }, (_, index) =>
-      String(index + 1)
-    );
-    newSquares[newSquares.indexOf("##")] = String(newSquares.length);
-    if (arraysEqual(newSquares, sortedArray)) {
-      console.log("Game won");
-      // setTime(0);
-      setIsActive(false);
-      setWon(true);
-      return;
-    }
-    setWon(false);
-  }, [squares]);
-
-  useEffect(() => {
-    if (won && user === null) {
-      asyncAlert(
-        `Represent your score on the global leaderboard by logging in!`
-      );
-    }
-  }, [won, user]);
-
-  const movable = useCallback(
-    (idx) => {
-      const mover = squares.indexOf("##");
-      // Horizontal:-1
-      // Vertical:1
-      // Not possible:0
-      if (idx === mover) {
-        return 0;
-      }
-      if (idx % gridSize === mover % gridSize) {
-        return 1;
-      } else {
-        const BEGIN = mover - (mover % gridSize);
-        if (idx >= BEGIN && idx <= BEGIN + gridSize - 1) {
-          return -1;
-        }
-        return 0;
-      }
-    },
-    [gridSize, squares]
-  );
-
-  const verticalChange = useCallback(
-    (idx, mover) => {
-      // console.log(gridSize);
-      let newSquares = squares.slice();
-      if (idx < mover) {
-        while (newSquares.indexOf("##") !== idx) {
-          newSquares = swapArrayElements(
-            newSquares,
-            newSquares.indexOf("##"),
-            newSquares.indexOf("##") - gridSize
-          );
-        }
-      } else if (idx > mover) {
-        while (newSquares.indexOf("##") !== idx) {
-          // console.log(gridSize);
-          // console.log(newSquares);
-          newSquares = swapArrayElements(
-            newSquares,
-            newSquares.indexOf("##"),
-            newSquares.indexOf("##") + gridSize
-          );
-        }
-      }
-      setSquares(newSquares);
-    },
-    [gridSize, squares]
-  );
-
-  const horizontalChange = useCallback(
-    (idx, mover) => {
-      let newSquares = squares.slice();
-      if (idx < mover) {
-        while (newSquares.indexOf("##") !== idx) {
-          newSquares = swapArrayElements(
-            newSquares,
-            newSquares.indexOf("##"),
-            newSquares.indexOf("##") - 1
-          );
-        }
-      } else if (idx > mover) {
-        while (newSquares.indexOf("##") !== idx) {
-          newSquares = swapArrayElements(
-            newSquares,
-            newSquares.indexOf("##"),
-            newSquares.indexOf("##") + 1
-          );
-        }
-      }
-      setSquares(newSquares);
-    },
-    [squares]
-  );
-
-  const handleClick = useCallback(
-    (i) => {
-      // console.log(i);
-      if (!isActive && won === false) {
-        setIsActive(true);
-        setReset(true);
-      }
-      if (movable(i) !== 0 && won === false) {
-        if (movable(i) === 1) {
-          verticalChange(i, squares.indexOf("##"));
-        } else {
-          horizontalChange(i, squares.indexOf("##"));
-        }
-      }
-    },
-    [horizontalChange, isActive, movable, squares, verticalChange, won]
-  );
-  useEffect(() => {
-    const leftHandler = () => {
-      const newSquares = squares.slice();
-      const mainIndex = newSquares.indexOf("##");
-      // checking for left edge
-      if (mainIndex % gridSize !== 0) {
-        handleClick(mainIndex - 1);
-      }
-    };
-    const rightHandler = () => {
-      const newSquares = squares.slice();
-      const mainIndex = newSquares.indexOf("##");
-      console.log(mainIndex);
-      // checking for left edge
-      if ((mainIndex + 1) % gridSize !== 0) {
-        handleClick(mainIndex + 1);
-      }
-    };
-    const upHandler = () => {
-      const newSquares = squares.slice();
-      const mainIndex = newSquares.indexOf("##");
-      console.log(mainIndex);
-      // checking for left edge
-      if (mainIndex >= gridSize) {
-        handleClick(mainIndex - gridSize);
-      }
-    };
-    const downHandler = () => {
-      const newSquares = squares.slice();
-      const mainIndex = newSquares.indexOf("##");
-      console.log(mainIndex);
-      // checking for left edge
-      if (mainIndex <= gridSize * gridSize - gridSize - 1) {
-        handleClick(mainIndex + gridSize);
-      }
-    };
-    const keyEventsCallback = (e) => {
-      const callback = {
-        ArrowLeft: leftHandler,
-        ArrowRight: rightHandler,
-        ArrowUp: upHandler,
-        ArrowDown: downHandler,
-      }[e.code];
-      callback?.();
-    };
-    document.addEventListener("keydown", keyEventsCallback);
-    return () => {
-      document.removeEventListener("keydown", keyEventsCallback);
-    };
-  }, [gridSize, handleClick, squares]);
 
   return (
     <>
@@ -240,9 +45,15 @@ const Game = () => {
         <h1>Number puzzle!</h1>
         <div className="game">
           <Board
-            squares={squares}
+            isActive={isActive}
+            setIsActive={setIsActive}
             gridSize={gridSize}
-            squareClick={handleClick}
+            setWon={setWon}
+            setGridSize={setGridSize}
+            user={user}
+            won={won}
+            reset={resetBoard}
+            setReset={setResetBoard}
           />
           <div className="details">
             <label htmlFor="number">
@@ -295,18 +106,19 @@ const Game = () => {
               <button
                 className="my-button"
                 onClick={() => {
-                  setSquares((_) => generateInitArray(gridSize));
+                  // setSquares((_) => generateInitArray(gridSize));
                   setIsActive(false);
                   setWon(false);
-                  setReset(true);
+                  setResetTimer(true);
+                  setResetBoard(true);
                 }}
               >
                 Reset board
               </button>
             </div>
             <Timer
-              reset={reset}
-              setReset={setReset}
+              reset={resetTimer}
+              setReset={setResetTimer}
               won={won}
               user={user}
               gridSize={gridSize}
