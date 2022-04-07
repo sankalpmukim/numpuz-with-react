@@ -23,6 +23,7 @@
     -->
     <title>Numpuz</title>
   </head>
+
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
@@ -36,5 +37,26 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker
+            .register("%PUBLIC_URL%/serviceWorker.js")
+            .then(
+              function (registration) {
+                // Registration was successful
+                console.log(
+                  "ServiceWorker registration successful with scope: ",
+                  registration.scope
+                );
+              },
+              function (err) {
+                // registration failed
+                console.log("ServiceWorker registration failed: ", err);
+              }
+            );
+        });
+      }
+    </script>
   </body>
 </html>
