@@ -92,6 +92,8 @@ const Game = () => {
             </label>
             <div>
               <h3>{won ? "Game won" : "Game not won"}</h3>
+              <p>{`Use your arrow keys/click on numbers to move the ## symbol.`}</p>
+              <p>{`End goal: Arrange all the numbers in order from left to right, top to bottom.`}</p>
             </div>
             <div>
               <input
